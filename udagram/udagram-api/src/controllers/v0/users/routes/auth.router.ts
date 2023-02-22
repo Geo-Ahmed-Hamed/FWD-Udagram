@@ -7,7 +7,6 @@ import * as c from '../../../../config/config';
 import * as jwt from 'jsonwebtoken';
 import {NextFunction} from 'connect';
 
-import * as EmailValidator from 'email-validator';
 import {config} from 'bluebird';
 
 const router: Router = Router();
@@ -56,10 +55,6 @@ router.post('/login', async (req: Request, res: Response) => {
   const email = req.body.email;
   const password = req.body.password;
 
-  if (!email || !EmailValidator.validate(email)) {
-    return res.status(400).send({auth: false, message: 'Email is required or malformed.'});
-  }
-
   if (!password) {
     return res.status(400).send({auth: false, message: 'Password is required.'});
   }
@@ -83,10 +78,6 @@ router.post('/login', async (req: Request, res: Response) => {
 router.post('/', async (req: Request, res: Response) => {
   const email = req.body.email;
   const plainTextPassword = req.body.password;
-
-  if (!email || !EmailValidator.validate(email)) {
-    return res.status(400).send({auth: false, message: 'Email is missing or malformed.'});
-  }
 
   if (!plainTextPassword) {
     return res.status(400).send({auth: false, message: 'Password is required.'});
